@@ -13,7 +13,8 @@ using System.Threading.Tasks;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace ProceedToBuy.Controllers
-{   [Authorize]
+{   
+
     [Route("api/[controller]")]
     [ApiController]
     public class ProceedToBuyController : ControllerBase
@@ -31,30 +32,35 @@ namespace ProceedToBuy.Controllers
         }
         // GET: api/<ProceedToBuyController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IEnumerable<Cart> Get()
         {
-            throw new NotImplementedException();
-            //return new string[] { "value1", "value2" };
+            return _repository.GetCart();
         }
 
         // GET api/<ProceedToBuyController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public List<Cart> Get(int id)
         {
-            throw new NotImplementedException();
+            List<Cart> cart = _repository.GetCart();
+            return cart.Where(x => x.CustomerId == id).ToList();
             
         }
 
         // POST api/<ProceedToBuyController>
         [HttpPost]
-        public Cart Post([FromBody] Cart _cart)
+        public Boolean Post([FromBody] Cart _cart)
         {
             _log4net.Info("Posting Cart");
             return _repository.AddToCart(_cart);
-            
-
 
         }
+
+        [HttpGet("GetWishList/{id}")]
+        public IEnumerable<VendorWishlist> GetWishList(int id)
+        {
+            return _repository.GetWishlist(id);
+        }
+
         [Route("WishList")]
         [HttpPost]
         public IActionResult WishList(int customerId,int productId)
@@ -62,23 +68,17 @@ namespace ProceedToBuy.Controllers
             _log4net.Info("Posting WishList");
             _repository.AddToWishList(customerId,productId);
             return Ok("Success");
-
-
-
         }
 
-        // PUT api/<ProceedToBuyController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [Route("DeleteAll/{id}")]
+        [HttpGet]
+        public IActionResult DeleteAll (int id)
         {
-            throw new NotImplementedException();
+            _log4net.Info("Posting WishList");
+            if(_repository.DeleteCustomerCart(id))
+                return Ok("Success");
+            return Ok("Failed");
         }
 
-        // DELETE api/<ProceedToBuyController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

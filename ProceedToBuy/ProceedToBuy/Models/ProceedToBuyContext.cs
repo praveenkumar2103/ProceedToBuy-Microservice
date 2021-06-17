@@ -12,7 +12,7 @@ namespace ProceedToBuy.Models
         {
 
         }
-        public DbSet<Vendor> Vendors { get; set; }
+
         public DbSet<Cart> Carts { get; set; }
         public DbSet<VendorWishlist> VendorWishlists { get; set; }
         

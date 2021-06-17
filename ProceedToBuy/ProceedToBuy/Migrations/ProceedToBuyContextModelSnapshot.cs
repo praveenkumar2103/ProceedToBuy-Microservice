@@ -35,6 +35,9 @@ namespace ProceedToBuy.Migrations
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
 
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
                     b.Property<int?>("VendorId")
                         .HasColumnType("int");
 
@@ -50,26 +53,23 @@ namespace ProceedToBuy.Migrations
 
             modelBuilder.Entity("ProceedToBuy.Models.Vendor", b =>
                 {
-                    b.Property<int>("VendorId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<double>("DeliveryCharge")
-                        .HasColumnType("float");
-
-                    b.Property<int>("Id")
+                    b.Property<int>("DeliveryCharge")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double>("Rating")
-                        .HasColumnType("float");
+                    b.Property<int>("Rating")
+                        .HasColumnType("int");
 
-                    b.HasKey("VendorId");
+                    b.HasKey("Id");
 
-                    b.ToTable("Vendors");
+                    b.ToTable("Vendor");
                 });
 
             modelBuilder.Entity("ProceedToBuy.Models.VendorWishlist", b =>
@@ -78,6 +78,9 @@ namespace ProceedToBuy.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CustomerId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("DateAddedToWishlist")
                         .HasColumnType("datetime2");
